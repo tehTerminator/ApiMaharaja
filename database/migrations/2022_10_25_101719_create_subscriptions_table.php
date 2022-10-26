@@ -27,7 +27,7 @@ class CreateSubscriptionsTable extends Migration
                 ->default(false);
             $table->unsignedTinyInteger('count');
             $table->timestamps();
-            $table->timestamp('expiry_date')
+            $table->timestamp('expire_at')
                 ->nullable()
                 ->default(NULL);
 
