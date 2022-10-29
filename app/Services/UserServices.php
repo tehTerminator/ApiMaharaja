@@ -39,14 +39,13 @@ class UserService {
     }
 
     public static function updatePassword(string $oldPassword, $newPassword) {
-        $user = Auth::user();
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
 
-        if( Hash::check($user->password, $oldPassword) )
-        {
+        if (Hash::check($oldPassword, $user->password)) {
             $user->password = Hash::make($newPassword);
-            return true;
+            return $user->save();
         }
-
         return false;
     }
 

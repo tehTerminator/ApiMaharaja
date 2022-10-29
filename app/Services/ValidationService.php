@@ -6,23 +6,23 @@ class ValidationService
 {
     private static $rules = [
         'users' => [
-            'title' => ["required","string","max:255"],
-            'email' => ["required","email","unique:users"],
-            'password' => ["required","string","max:30"],
-            'role_id' => ["required","exists:roles,id"]
+            'title' => ["required", "string", "max:255"],
+            'email' => ["required", "email", "unique:users"],
+            'password' => ["required", "string", "max:30"],
+            'role_id' => ["required", "exists:roles,id"]
         ],
         'roles' => [
-            'title' => ["required","string","max:30","unique:roles"],
-            'weight' => ["required","integer","max:255","unique:roles"]
+            'title' => ["required", "string", "max:30", "unique:roles"],
+            'weight' => ["required", "integer", "max:255", "unique:roles"]
         ],
         'subscriptions' => [
-            'user_id' => ["required","exists:users,id"],
-            'system_id' => ["unique:subscriptions","alpha_num"],
-            'title' => ["required","string","max:255"],
+            'user_id' => ["required", "exists:users,id"],
+            'system_id' => ["unique:subscriptions", "alpha_num"],
+            'title' => ["required", "string", "max:255"],
             'does_expire' => ["boolean"],
             'has_count' => ["boolean"],
-            'count' => ["integer","min:0"],
-            'expire_at' => ["date","after:today"]
+            'count' => ["integer", "min:0"],
+            'expire_at' => ["date", "after:today"]
         ]
     ];
 
@@ -34,37 +34,40 @@ class ValidationService
      * @return array Containing Validation Rules
      */
     public static function getValidationRules(
-        string $table, 
-        array $columns, 
-        bool $unique=true
+        string $table,
+        array $columns = [],
+        bool $unique = true
     ) {
-        if (array_key_exists($table, ValidationService::$rules)) {
-            $rules = [];
-            $source = ValidationService::$rules[$table];
-            foreach($columns as $col) {
-                if (array_key_exists($col, $source)) {
-                    $rules[$col] = $source[$col];
-                    
-                }
-            }
-
-            if (!$unique) {
-                $rules = ValidationService::removeUniqueValidationRule($rules);
-            }
-
-            return $rules;
+        if (!array_key_exists($table, ValidationService::$rules)) {
+            return [];
         }
 
-        return [];
+        if (count($columns) == 0) {
+            return ValidationService::$rules[$table];
+        }
+
+        $source = ValidationService::$rules[$table];
+        $rules = [];
+        foreach ($columns as $col) {
+            if (array_key_exists($col, $source)) {
+                $rules[$col] = $source[$col];
+            }
+        }
+
+        if (!$unique) {
+            $rules = ValidationService::removeUniqueValidationRule($rules);
+        }
+
+        return $rules;
     }
 
-    private static function removeUniqueValidationRule(&$arr) {
-        for($i = 0; $i < count($arr); $i++) {
+    private static function removeUniqueValidationRule(&$arr)
+    {
+        for ($i = 0; $i < count($arr); $i++) {
             if (strpos($arr[$i], 'unique') == 0) {
                 unset($arr[$i]);
             }
         }
-
         return $arr;
     }
 }
