@@ -18,7 +18,10 @@ class CreateArticlesTable extends Migration
             $table->string('title');
             $table->longText('body');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('user_id');
+            $table->boolean('published')->default(false);
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
