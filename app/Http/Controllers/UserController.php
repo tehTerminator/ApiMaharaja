@@ -6,7 +6,7 @@ use App\Services\UserService;
 use App\Services\ValidationService;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class UserController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,25 +18,25 @@ class AuthController extends Controller
         //
     }
 
-    public function authenticate(Request $request)
+    public static function authenticate(Request $request)
     {
-        $this->validateRequest($request, ['email', 'password'], false);
+        UserController::validateRequest($request, ['email', 'password'], false);
         $user = UserService::authenticate(
             $request->email,
             $request->password
         );
-        $this->handleResponse(true, $user);
+        UserController::handleResponse(true, $user);
     }
 
-    public function store(Request $request)
+    public static function store(Request $request)
     {
-        $this->validateRequest($request);
-        $this->handleResponse(UserService::store($request));
+        UserController::validateRequest($request);
+        UserController::handleResponse(UserService::store($request));
     }
 
-    public function updatePassword(Request $request)
+    public static function updatePassword(Request $request)
     {
-        $this->handleResponse(
+        UserController::handleResponse(
             UserService::updatePassword(
                 $request->oldPassword,
                 $request->newPassword
@@ -44,16 +44,16 @@ class AuthController extends Controller
         );
     }
 
-    private function validateRequest(
+    private static function validateRequest(
         Request &$request,
         array $columns = [],
         bool $unique = true
     ) {
         $rules = ValidationService::getValidationRules('users', $columns, $unique);
-        $this->validate($request, $rules);
+        UserController::validate($request, $rules);
     }
 
-    private function handleResponse($status, $data = NULL)
+    private static function handleResponse($status, $data = NULL)
     {
         if (!$status) {
             return response('Failed to Save Data', 400);
