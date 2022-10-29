@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\UserService;
 use App\Services\ValidationService;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
