@@ -44,4 +44,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function role() {
         return $this->belongsTo('App\Role');
     }
+
+    public function tasks() {
+        return $this->hasMany(Task::class, 'accepted_by', 'id');
+    }
 }

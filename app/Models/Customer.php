@@ -18,4 +18,8 @@ class Customer extends Model {
     public function invoices() {
         return $this->hasMany(Invoice::class);
     }
+
+    public function tasks() {
+        return $this->hasMany(Task::class, 'customer_id', 'id');
+    }
 }
