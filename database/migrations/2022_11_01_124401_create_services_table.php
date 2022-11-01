@@ -17,7 +17,7 @@ class CreateServicesTable extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->double('rate')->default(0);
-            $table->timestamp('deleted_at')->nullable()->default(NULL);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

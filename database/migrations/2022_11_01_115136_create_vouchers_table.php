@@ -23,7 +23,7 @@ class CreateVouchersTable extends Migration
             $table->double('amount')->default(0.00);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->on('users')->references('id');
-            $table->timestamp('deleted_at')->nullable()->default(NULL);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
