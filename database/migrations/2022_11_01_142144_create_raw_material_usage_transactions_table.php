@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLedgersTable extends Migration
+class CreateRawMaterialUsageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateLedgersTable extends Migration
      */
     public function up()
     {
-        Schema::create('ledgers', function (Blueprint $table) {
+        Schema::create('raw_material_usage', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->enum('kind', ['BANK', 'CASH', 'PAYABLES', 'RECEIVABLES', 'EXPENSE', 'INCOME', 'CAPITAL']);
-            $table->string('remark')->nullable()->default(NULL);
-            $table->softDeletes();
+            $table->enum('direction', ['IN', 'OUT']);
+            $table->unsignedBigInteger('invoice_id');
+            $table->unsignedBigInteger('raw_material_id');
+            $table->double('quantity');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateLedgersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ledgers');
+        Schema::dropIfExists('raw_material_usage');
     }
 }

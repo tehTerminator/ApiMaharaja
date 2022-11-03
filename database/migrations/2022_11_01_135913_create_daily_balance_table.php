@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLedgersTable extends Migration
+class CreateDailyBalanceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateLedgersTable extends Migration
      */
     public function up()
     {
-        Schema::create('ledgers', function (Blueprint $table) {
+        Schema::create('daily_balance', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->enum('kind', ['BANK', 'CASH', 'PAYABLES', 'RECEIVABLES', 'EXPENSE', 'INCOME', 'CAPITAL']);
-            $table->string('remark')->nullable()->default(NULL);
-            $table->softDeletes();
+            $table->unsignedBigInteger('ledger_id');
+            $table->foreign('ledger_id')->references('id')->on('ledgers');
+            $table->double('opening')->default(0.00);
+            $table->double('closing')->default(0.00);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateLedgersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ledgers');
+        Schema::dropIfExists('daily_balance');
     }
 }
