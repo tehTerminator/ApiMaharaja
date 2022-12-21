@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubscriptionsTable extends Migration
+class CreateLicencesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateSubscriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
+        Schema::create('licences', function (Blueprint $table) {
+            $table->uuid('id');
             $table->string('system_id')
                 ->unique()
                 ->nullable()
                 ->default(NULL);
-            $table->string('title');
             $table->boolean('does_expire')
                 ->default(false);
             $table->boolean('has_count')
@@ -29,8 +27,7 @@ class CreateSubscriptionsTable extends Migration
             $table->timestamps();
             $table->timestamp('expire_at')
                 ->nullable()
-                ->default(NULL);
-
+                ->default(NULL); 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
@@ -44,6 +41,6 @@ class CreateSubscriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscriptions');
+        Schema::dropIfExists('licences');
     }
 }
