@@ -19,7 +19,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'title', 'email', 'image', 'level'
+        'title', 'email', 'image', 'role_id'
     ];
 
     /**
@@ -32,7 +32,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     protected $attributes = [
-        'level' => 0,
         'image' => NULL,
         'token' => NULL
     ];
