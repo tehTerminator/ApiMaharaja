@@ -36,8 +36,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'token' => NULL
     ];
 
-    public function subscriptions() {
-        return $this->hasMany('App\Subscription');
+    public function licences() {
+        return $this->hasMany('App\Licence');
     }
 
     public function role() {
